@@ -5,7 +5,7 @@ using ML_Lib.Exceptions.Matrix;
 
 namespace ML_Lib.Common;
 
-public class Matrix<T> : IEnumerable<Vector<T>> where T :
+public class Matrix<T> : IEnumerable<Vector<T>>, ICloneable where T :
     IAdditionOperators<T, T, T>,
     ISubtractionOperators<T, T, T>,
     IDivisionOperators<T, double, T>,
@@ -18,7 +18,9 @@ public class Matrix<T> : IEnumerable<Vector<T>> where T :
         for (int i = 0; i < rows; i++)
             _rows[i] = new Vector<T>(cols);
     }
-    private readonly Vector<T>[] _rows;
+    private string _name = string.Empty;
+    public string Name => _name;
+    private Vector<T>[] _rows;
 
     public Vector<T> this[int row] => _rows[row];
 
@@ -33,7 +35,28 @@ public class Matrix<T> : IEnumerable<Vector<T>> where T :
     public int Rows => _rows.Length;
     public int Cols => _rows[0].Length;
 
-    public void AddRow(params T[] row)
+    public Matrix<T> Label(string name)
+    {
+        _name = name;
+        return this;
+    }
+
+    public Matrix<T> GetNColumns(int n)
+    {
+        if (n < 0 || n > Cols)
+            throw new IndexOutOfRangeException();
+
+        var result = new Matrix<T>(Rows, n);
+
+        for (int i = 0; i < Rows; i++)
+            for (int j = 0; j < n; j++)
+                result[i, j] = _rows[i][j];
+
+        return result;
+    }
+
+
+    public Matrix<T> AddRow(params T[] row)
     {
         if (row.Length != Cols)
             throw new Exception($"Bu matrise '{row.Length}' sütunlu veri eklenemez.");
@@ -45,10 +68,10 @@ public class Matrix<T> : IEnumerable<Vector<T>> where T :
         for (int i = 0; i < row.Length; i++)
             vector[i] = row[i];
 
-        AddRow(vector);
+        return AddRow(vector);
     }
 
-    public void AddRow(Vector<T> row)
+    public Matrix<T> AddRow(Vector<T> row)
     {
         if (row.Length != Cols)
             throw new DimensionsUnmatchedException();
@@ -60,19 +83,32 @@ public class Matrix<T> : IEnumerable<Vector<T>> where T :
             _rows[curRow][i] = row[i];
 
         curRow++;
+        return this;
     }
 
-    public Vector<TResult> GetColumn<TResult>(int col)
+    public Vector<T> GetColumn(int col)
     {
         if (col < 0 || col >= Cols)
             throw new IndexOutOfRangeException();
 
-        var column = new Vector<TResult>(Rows);
+        var column = new Vector<T>(Rows);
 
         for (int i = 0; i < Rows; i++)
-            column.Add((TResult)Convert.ChangeType(_rows[i][col], typeof(TResult)));
+            column.Add(_rows[i][col]);
 
         return column;
+    }
+
+    public Matrix<T> RemoveRow(int row)
+    {
+        if (row < 0 || row >= Rows)
+            throw new IndexOutOfRangeException();
+
+        var newRows = _rows.ToList();
+        newRows.RemoveAt(row);
+        _rows = [.. newRows];
+        curRow--;
+        return this;
     }
 
     public IEnumerator<Vector<T>> GetEnumerator()
@@ -155,21 +191,38 @@ public class Matrix<T> : IEnumerable<Vector<T>> where T :
     {
         var finale = new StringBuilder();
 
+        if (!string.IsNullOrEmpty(_name))
+        {
+            finale.Append(_name);
+            finale.Append(" = ");
+        }
+
         finale.AppendLine("[");
 
         for (int i = 0; i < _rows.Length; i++)
         {
             var row = _rows[i];
 
-            finale.Append(" {");
+            finale.Append(" [");
 
             finale.Append(string.Join(", ", row.Select(x => x.ToString())));
 
-            finale.AppendLine("}" + (i == _rows.Length - 1 ? "" : ","));
+            finale.AppendLine("]" + (i == _rows.Length - 1 ? "" : ","));
         }
 
         finale.AppendLine("]");
 
         return finale.ToString();
+    }
+
+    public object Clone()
+    {
+        var result = new Matrix<T>(Rows, Cols);
+
+        for (int i = 0; i < Rows; i++)
+            for (int j = 0; j < Cols; j++)
+                result[i, j] = _rows[i][j];
+
+        return result;
     }
 }

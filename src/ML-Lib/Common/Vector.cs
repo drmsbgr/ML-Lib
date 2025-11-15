@@ -1,19 +1,24 @@
 using System.Collections;
+using System.Numerics;
 using System.Text;
+using ML_Lib.Exceptions.Matrix;
 
 namespace ML_Lib.Common;
 
-public class Vector<T>(int size) : IEnumerable<T>
+public class Vector<T>(int size) : IEnumerable<T> where T :
+    IAdditionOperators<T, T, T>,
+    ISubtractionOperators<T, T, T>,
+    IMultiplyOperators<T, T, T>
 {
-    public static Vector<T> Create(params T[] elements)
-    {
-        var vector = new Vector<T>(elements.Length);
-        for (int i = 0; i < elements.Length; i++)
-            vector[i] = elements[i];
-        return vector;
-    }
-
     private readonly T[] _elements = new T[size];
+    private string _name = string.Empty;
+    public string Name => _name;
+
+    public Vector<T> Label(string name)
+    {
+        _name = name;
+        return this;
+    }
 
     public int Length => _elements.Length;
     private int curIndex;
@@ -49,13 +54,59 @@ public class Vector<T>(int size) : IEnumerable<T>
         return GetEnumerator();
     }
 
+    public static Vector<T> operator +(Vector<T> a, Vector<T> b)
+    {
+        if (a.Length != b.Length)
+            throw new DimensionsUnmatchedException();
+
+        var result = new Vector<T>(a.Length);
+        for (int i = 0; i < a.Length; i++)
+            result[i] = a[i] + b[i];
+        return result;
+    }
+
+    public static Vector<T> operator -(Vector<T> a, Vector<T> b)
+    {
+        if (a.Length != b.Length)
+            throw new DimensionsUnmatchedException();
+
+        var result = new Vector<T>(a.Length);
+        for (int i = 0; i < a.Length; i++)
+            result[i] = a[i] - b[i];
+        return result;
+    }
+
+    public static Vector<T> operator *(Vector<T> a, double scalar)
+    {
+        var result = new Vector<T>(a.Length);
+        for (int i = 0; i < a.Length; i++)
+            result[i] = (T)Convert.ChangeType((double)Convert.ChangeType(a[i], typeof(double)) * scalar, typeof(T));
+        return result;
+    }
+
+    public static Vector<T> operator *(double scalar, Vector<T> a)
+    {
+        return a * scalar;
+    }
+
+    public static Vector<T> operator /(Vector<T> a, double scalar)
+    {
+        var result = new Vector<T>(a.Length);
+        for (int i = 0; i < a.Length; i++)
+            result[i] = (T)Convert.ChangeType((double)Convert.ChangeType(a[i], typeof(double)) / scalar, typeof(T));
+        return result;
+    }
+
     public override string ToString()
     {
         var s = new StringBuilder();
 
-        s.Append("[{");
+        if (!string.IsNullOrEmpty(_name))
+            s.Append($"{_name} = ");
+
+        s.Append('[');
         s.Append(string.Join(", ", _elements.Select(x => x is null ? "NaN" : x.ToString())));
-        s.Append("}]");
+        s.Append(']');
 
         return s.ToString();
     }

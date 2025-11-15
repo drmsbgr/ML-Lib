@@ -1,17 +1,12 @@
+using System.Numerics;
+
 namespace ML_Lib.Common;
 
 public static class VectorFactory
 {
-    public static Vector<T> Create<T>(IEnumerable<T> elements)
+    public static Vector<int> Create(params int[] elements)
     {
-        var vector = new Vector<T>(elements.Count());
-        for (int i = 0; i < elements.Count(); i++)
-            vector[i] = elements.ElementAt(i);
-        return vector;
-    }
-    public static Vector<T> Create<T>(params T[] elements)
-    {
-        var vector = new Vector<T>(elements.Length);
+        var vector = new Vector<int>(elements.Length);
         for (int i = 0; i < elements.Length; i++)
             vector[i] = elements[i];
         return vector;

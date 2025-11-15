@@ -15,15 +15,17 @@ public class DataReader(string filePath)
 
         lines.ForEach(r =>
         {
-            var values = r.Split(',');
+            var strValues = r.Split(',');
 
-            var row = VectorFactory.Create(values.Select(x => double.Parse(x, CultureInfo.InvariantCulture)));
+            var values = strValues.Select(x => double.Parse(x, CultureInfo.InvariantCulture)).ToArray();
+
+            var row = VectorFactory.Create(values);
 
             fullMatrix.AddRow(row);
         });
 
         //splitting data and class
-        var classes = fullMatrix.GetColumn<int>(fullMatrix.Cols - 1);
+        var classes = fullMatrix.GetColumn(fullMatrix.Cols - 1);
         var data = new Matrix<double>(fullMatrix.Rows, fullMatrix.Cols - 1);
 
         for (int i = 0; i < fullMatrix.Rows; i++)
@@ -34,6 +36,10 @@ public class DataReader(string filePath)
             data.AddRow(row);
         }
 
-        return (data, classes);
+        var intClasses = new Vector<int>(classes.Length);
+        for (int i = 0; i < classes.Length; i++)
+            intClasses[i] = (int)classes[i];
+
+        return (data, intClasses);
     }
 }

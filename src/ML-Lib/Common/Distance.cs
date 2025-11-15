@@ -4,8 +4,18 @@ namespace ML_Lib.Common;
 
 public static class Distance
 {
-    private static bool CheckDimensions<T>(Vector<T> a, Vector<T> b) => a.Length == b.Length;
-    public static double Euclidean<T>(Vector<T> a, Vector<T> b) where T : ISubtractionOperators<T, T, double>
+    private static bool CheckDimensions<T>(Vector<T> a, Vector<T> b) where T :
+    IAdditionOperators<T, T, T>,
+    ISubtractionOperators<T, T, T>,
+    IDivisionOperators<T, double, T>,
+    IMultiplyOperators<T, double, T>,
+    IMultiplyOperators<T, T, T> => a.Length == b.Length;
+    public static double Euclidean<T>(Vector<T> a, Vector<T> b) where T :
+    IAdditionOperators<T, T, T>,
+    ISubtractionOperators<T, T, T>,
+    IDivisionOperators<T, double, T>,
+    IMultiplyOperators<T, double, T>,
+    IMultiplyOperators<T, T, T>
     {
         if (!CheckDimensions(a, b))
             throw new ArgumentException("Vektörlerin boyutları eşleşmiyor.");
@@ -14,14 +24,19 @@ public static class Distance
 
         for (int i = 0; i < a.Length; i++)
         {
-            double diff = a[i] - b[i];
-            sum += diff * diff;
+            T diff = a[i] - b[i];
+            sum += (double)Convert.ChangeType(diff * diff, typeof(double));
         }
 
         return Math.Sqrt(sum);
     }
 
-    public static double Manhattan<T>(Vector<T> a, Vector<T> b) where T : ISubtractionOperators<T, T, double>
+    public static double Manhattan<T>(Vector<T> a, Vector<T> b) where T :
+        IAdditionOperators<T, T, T>,
+        ISubtractionOperators<T, T, T>,
+        IDivisionOperators<T, double, T>,
+        IMultiplyOperators<T, double, T>,
+        IMultiplyOperators<T, T, T>
     {
         if (!CheckDimensions(a, b))
             throw new ArgumentException("Vektörlerin boyutları eşleşmiyor.");
@@ -29,7 +44,10 @@ public static class Distance
         double sum = 0.0;
 
         for (int i = 0; i < a.Length; i++)
-            sum += Math.Abs(a[i] - b[i]);
+        {
+            T diff = a[i] - b[i];
+            sum += Math.Abs((double)Convert.ChangeType(diff, typeof(double)));
+        }
 
         return sum;
     }
