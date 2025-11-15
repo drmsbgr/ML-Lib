@@ -9,18 +9,19 @@ public class KMeansTest
     public void KMeansGroupPointCheck()
     {
         // Given
-        var data = MatrixFactory.Create(4, 2);
-
-        data.AddRow(1, 1);
-        data.AddRow(2, 2);
-        data.AddRow(10, 10);
-        data.AddRow(11, 11);
-
+        var data = MatrixFactory.Create(4, 2)
+        .AddRow(1, 1)
+        .AddRow(2, 2)
+        .AddRow(10, 10)
+        .AddRow(11, 11);
 
         // When
-        var options = new KMeansOptions(2, 1);
-        var kmeans = new KMeans(options);
+        var kmeans = new KMeans(KMeansOptions.Default);
+        var clusters = kmeans.Cluster(data);
 
         // Then
+        Assert.Equal(2, clusters.Distinct().Count()); // sonuç olarak iki farklı küme olmalı
+        Assert.True(clusters[0] == clusters[1]); // aynı kümede olmalılar
+        Assert.True(clusters[2] == clusters[3]); // aynı kümede olmalılar
     }
 }
