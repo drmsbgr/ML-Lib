@@ -17,13 +17,13 @@ Kütüphane içerisinde aşağıdaki algoritmaların implementasyonları bulunma
 ### Sınıflandırma (Classification)
 
 - k-En Yakın Komşu (k-Nearest Neighbors - k-NN)
-- Karar Ağaçları (Decision Trees - ID3, C4.5)
-- Naive Bayes
+- \*Karar Ağaçları (Decision Trees - ID3, C4.5)
+- \*Naive Bayes
 
 ### Kümeleme (Clustering)
 
 - k-Means
-- DBSCAN
+- \*DBSCAN
 
 ### Birliktelik Kuralı Madenciliği (Association Rule Mining)
 
@@ -48,22 +48,25 @@ git clone https://github.com/drmsbgr/ML-Lib.git
 Aşağıda `k-NN` algoritmasının basit bir kullanım örneği gösterilmiştir:
 
 ```csharp
-using ML_Lib.Klasiklestirme; // Namespace'i kendi projenize göre güncelleyin
+//veriyi hazırlıyoruz
+var data = MatrixFactory
+    .Create(10, 2)
+    .AddRow(2, 1)
+    .AddRow(3, 3)
+    .AddRow(4, 4)
+    .AddRow(5, 5)
+    .AddRow(6, 6)
+    .AddRow(1, 7)
+    .AddRow(2, 2)
+    .AddRow(3, 2)
+    .AddRow(4, 1)
+    .AddRow(3, 1);
 
-// 1. Veri setinizi hazırlayın (Örnek veri)
-var egitimVerisi = new List<VeriNoktasi> { /* ... */ };
-var testVerisi = new VeriNoktasi { /* ... */ };
-
-// 2. k-NN modelini oluşturun
-var knn = new KNN(k: 3);
-
-// 3. Modeli eğitin
-knn.Egit(egitimVerisi);
-
-// 4. Tahmin yapın
-string tahminEdilenEtiket = knn.TahminEt(testVerisi);
-
-Console.WriteLine($"Tahmin edilen sınıf: {tahminEdilenEtiket}");
+//algoritmayı tanımlıyoruz
+var kmeans = new KMeans(new(2));
+//çalıştırıyoruz
+var clusterIds = VectorFactory.Create(kmeans.Cluster(data)).Label("ClusterIds");
+Console.WriteLine(clusterIds);
 ```
 
 ## 🙌 Katkıda Bulunma
