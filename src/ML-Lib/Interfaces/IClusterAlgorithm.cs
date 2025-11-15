@@ -4,5 +4,5 @@ namespace ML_Lib.Interfaces;
 
 public interface IClusterAlgorithm
 {
-    int[] Cluster(Matrix data);
+    int[] Cluster(Matrix<double> data);
 }

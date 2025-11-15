@@ -9,7 +9,7 @@ public class KMeansTest
     public void KMeansGroupPointCheck()
     {
         // Given
-        var data = new Matrix(4, 2);
+        var data = MatrixFactory.Create(4, 2);
 
         data.AddRow(1, 1);
         data.AddRow(2, 2);

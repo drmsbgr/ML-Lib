@@ -8,7 +8,7 @@ public class UnitTest1
     public void CreateMatrixTest()
     {
         //matrisi oluştur
-        var m = new Matrix(2, 3);
+        var m = MatrixFactory.Create(2, 3);
         //değerleri ata
         m[0, 0] = 1;
         m[0, 1] = 2;
@@ -28,7 +28,7 @@ public class UnitTest1
     public void CheckMatrixScalarMultiplying()
     {
         // Given
-        var m = new Matrix(2, 2);
+        var m = MatrixFactory.Create(2, 2);
         m[0, 0] = 1;
         m[0, 1] = 2;
         m[1, 0] = 3;

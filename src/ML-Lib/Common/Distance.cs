@@ -1,9 +1,11 @@
+using System.Numerics;
+
 namespace ML_Lib.Common;
 
 public static class Distance
 {
-    private static bool CheckDimensions(double[] a, double[] b) => a.Length == b.Length;
-    public static double Euclidean(double[] a, double[] b)
+    private static bool CheckDimensions<T>(Vector<T> a, Vector<T> b) => a.Length == b.Length;
+    public static double Euclidean<T>(Vector<T> a, Vector<T> b) where T : ISubtractionOperators<T, T, double>
     {
         if (!CheckDimensions(a, b))
             throw new ArgumentException("Vektörlerin boyutları eşleşmiyor.");
@@ -19,7 +21,7 @@ public static class Distance
         return Math.Sqrt(sum);
     }
 
-    public static double Manhattan(double[] a, double[] b)
+    public static double Manhattan<T>(Vector<T> a, Vector<T> b) where T : ISubtractionOperators<T, T, double>
     {
         if (!CheckDimensions(a, b))
             throw new ArgumentException("Vektörlerin boyutları eşleşmiyor.");
