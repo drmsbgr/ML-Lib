@@ -5,17 +5,15 @@ namespace ML_Lib.Common;
 public static class Distance
 {
     private static bool CheckDimensions<T>(Vector<T> a, Vector<T> b) where T :
-    IAdditionOperators<T, T, T>,
-    ISubtractionOperators<T, T, T>,
-    IDivisionOperators<T, double, T>,
-    IMultiplyOperators<T, double, T>,
-    IMultiplyOperators<T, T, T> => a.Length == b.Length;
+        IAdditionOperators<T, T, T>,
+        ISubtractionOperators<T, T, T>,
+        IMultiplyOperators<T, T, T>,
+        IDivisionOperators<T, T, T> => a.Length == b.Length;
     public static double Euclidean<T>(Vector<T> a, Vector<T> b) where T :
-    IAdditionOperators<T, T, T>,
-    ISubtractionOperators<T, T, T>,
-    IDivisionOperators<T, double, T>,
-    IMultiplyOperators<T, double, T>,
-    IMultiplyOperators<T, T, T>
+        IAdditionOperators<T, T, T>,
+        ISubtractionOperators<T, T, T>,
+        IMultiplyOperators<T, T, T>,
+        IDivisionOperators<T, T, T>
     {
         if (!CheckDimensions(a, b))
             throw new ArgumentException("Vektörlerin boyutları eşleşmiyor.");
@@ -34,9 +32,8 @@ public static class Distance
     public static double Manhattan<T>(Vector<T> a, Vector<T> b) where T :
         IAdditionOperators<T, T, T>,
         ISubtractionOperators<T, T, T>,
-        IDivisionOperators<T, double, T>,
-        IMultiplyOperators<T, double, T>,
-        IMultiplyOperators<T, T, T>
+        IMultiplyOperators<T, T, T>,
+        IDivisionOperators<T, T, T>
     {
         if (!CheckDimensions(a, b))
             throw new ArgumentException("Vektörlerin boyutları eşleşmiyor.");

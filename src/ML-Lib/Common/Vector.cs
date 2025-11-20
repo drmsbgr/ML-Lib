@@ -8,7 +8,8 @@ namespace ML_Lib.Common;
 public class Vector<T>(int size) : IEnumerable<T> where T :
     IAdditionOperators<T, T, T>,
     ISubtractionOperators<T, T, T>,
-    IMultiplyOperators<T, T, T>
+    IMultiplyOperators<T, T, T>,
+    IDivisionOperators<T, T, T>
 {
     private readonly T[] _elements = new T[size];
     private string _name = string.Empty;
@@ -76,24 +77,24 @@ public class Vector<T>(int size) : IEnumerable<T> where T :
         return result;
     }
 
-    public static Vector<T> operator *(Vector<T> a, double scalar)
+    public static Vector<T> operator *(Vector<T> a, T scalar)
     {
         var result = new Vector<T>(a.Length);
         for (int i = 0; i < a.Length; i++)
-            result[i] = (T)Convert.ChangeType((double)Convert.ChangeType(a[i], typeof(double)) * scalar, typeof(T));
+            result[i] = a[i] * scalar;
         return result;
     }
 
-    public static Vector<T> operator *(double scalar, Vector<T> a)
+    public static Vector<T> operator *(T scalar, Vector<T> a)
     {
         return a * scalar;
     }
 
-    public static Vector<T> operator /(Vector<T> a, double scalar)
+    public static Vector<T> operator /(Vector<T> a, T scalar)
     {
         var result = new Vector<T>(a.Length);
         for (int i = 0; i < a.Length; i++)
-            result[i] = (T)Convert.ChangeType((double)Convert.ChangeType(a[i], typeof(double)) / scalar, typeof(T));
+            result[i] = a[i] / scalar;
         return result;
     }
 
