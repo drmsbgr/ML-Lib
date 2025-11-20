@@ -17,7 +17,7 @@ Kütüphane içerisinde aşağıdaki algoritmaların implementasyonları bulunma
 ### Sınıflandırma (Classification)
 
 - k-En Yakın Komşu (k-Nearest Neighbors - k-NN)
-- \*Karar Ağaçları (Decision Trees - ID3, C4.5)
+- Karar Ağaçları (Decision Trees - ID3, C4.5)
 - \*Naive Bayes
 
 ### Kümeleme (Clustering)
@@ -27,7 +27,7 @@ Kütüphane içerisinde aşağıdaki algoritmaların implementasyonları bulunma
 
 ### Birliktelik Kuralı Madenciliği (Association Rule Mining)
 
-- Apriori
+- \*Apriori
 
 ## 📦 Kurulum
 

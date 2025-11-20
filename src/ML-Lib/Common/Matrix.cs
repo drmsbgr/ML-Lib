@@ -8,8 +8,7 @@ namespace ML_Lib.Common;
 public class Matrix<T> : IEnumerable<Vector<T>>, ICloneable where T :
     IAdditionOperators<T, T, T>,
     ISubtractionOperators<T, T, T>,
-    IDivisionOperators<T, double, T>,
-    IMultiplyOperators<T, double, T>,
+    IDivisionOperators<T, T, T>,
     IMultiplyOperators<T, T, T>
 {
     public Matrix(int rows, int cols)
@@ -162,7 +161,7 @@ public class Matrix<T> : IEnumerable<Vector<T>>, ICloneable where T :
 
         return result;
     }
-    public static Matrix<T> operator *(Matrix<T> a, double scalar)
+    public static Matrix<T> operator *(Matrix<T> a, T scalar)
     {
         Matrix<T> result = new(a.Rows, a.Cols);
 
@@ -172,11 +171,11 @@ public class Matrix<T> : IEnumerable<Vector<T>>, ICloneable where T :
 
         return result;
     }
-    public static Matrix<T> operator *(double scalar, Matrix<T> a)
+    public static Matrix<T> operator *(T scalar, Matrix<T> a)
     {
         return a * scalar;
     }
-    public static Matrix<T> operator /(Matrix<T> a, double scalar)
+    public static Matrix<T> operator /(Matrix<T> a, T scalar)
     {
         Matrix<T> result = new(a.Rows, a.Cols);
 

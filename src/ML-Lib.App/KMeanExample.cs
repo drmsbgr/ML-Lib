@@ -5,7 +5,7 @@ namespace ML_Lib.App;
 
 public static class KMeanExample
 {
-    public static void KMeanExec()
+    public static void Exec()
     {
         var data = MatrixFactory
         .Create(10, 2)

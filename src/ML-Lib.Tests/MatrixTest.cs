@@ -2,7 +2,7 @@
 
 namespace ML_Lib.Tests;
 
-public class UnitTest1
+public class MatrixTest
 {
     [Fact]
     public void CreateMatrixTest()

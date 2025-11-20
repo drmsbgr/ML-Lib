@@ -1,6 +1,6 @@
 namespace ML_Lib.Interfaces;
 
-public interface ITrainable<TInput>
+public interface ITrainable<TInput, TOutput>
 {
-    void Train(TInput data);
+    TOutput Train(TInput data);
 }

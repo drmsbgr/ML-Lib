@@ -6,7 +6,7 @@ namespace ML_Lib.App;
 
 public static class KNNExample
 {
-    public static void KNNExec()
+    public static void Exec()
     {
         var folderPath = Assembly.GetExecutingAssembly().Location;
 

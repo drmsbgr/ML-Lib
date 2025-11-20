@@ -4,7 +4,7 @@ namespace ML_Lib.App;
 
 public static class MatrixExample
 {
-    public static void MatrixExec()
+    public static void Exec()
     {
         var a = MatrixFactory
         .Create(4, 3)

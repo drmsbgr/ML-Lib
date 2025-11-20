@@ -1,4 +1,6 @@
 ﻿using ML_Lib.App;
 
-MatrixExample.MatrixExec();
-
+//MatrixExample.Exec();
+//KNNExample.Exec();
+//KMeanExample.Exec();
+DecisionTreeExample.Exec();

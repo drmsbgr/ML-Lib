@@ -6,7 +6,7 @@ namespace ML_Lib.Tests;
 public class KNNTest
 {
     [Fact]
-    public void KNNTest1()
+    public void KNN_Classification_Test()
     {
         // Given
         var data = MatrixFactory.Create(rows: 3, cols: 2)
